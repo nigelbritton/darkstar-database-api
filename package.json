@@ -1,0 +1,19 @@
+{
+    "name": "darkstar-database-api",
+    "version": "0.1.20190425",
+    "private": true,
+    "scripts": {
+        "start": "node app/server.js",
+        "debug-application": "DEBUG=darkstar-database-api* node app/server.js"
+    },
+    "dependencies": {
+        "config": "",
+        "debug": "",
+        "md5": "",
+        "morgan": "",
+        "mysql": "",
+        "newrelic": "",
+        "promise": "",
+        "request": ""
+    }
+}

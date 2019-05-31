@@ -1,0 +1,9 @@
+{
+    "name": "Darkstar Database API - Node.js Web Application",
+    "description": "This is a simple app that creates static json feeds of popular database calls for use in mobile/web applications",
+    "repository": "https://github.com/nigelbritton/darkstar-database-api",
+    "keywords": [
+        "node",
+        "mysql"
+    ]
+}
