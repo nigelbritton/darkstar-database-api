@@ -9,6 +9,8 @@
     "dependencies": {
         "config": "",
         "debug": "",
+        "express": "^4.17.1",
+        "http-errors": "^1.7.2",
         "md5": "",
         "morgan": "",
         "mysql": "",
