@@ -16,6 +16,7 @@ const connectionDetails = {
     database: process.env.DATABASE_NAME || ''
 };
 let connectionPool = null;
+let cacheBlobStorage = {};
 
 if (connectionDetails.host !== '' &&
     connectionDetails.user !== '' &&
@@ -97,11 +98,50 @@ let Database = {
                 });
             }
         });
+    },
+
+    /**
+     *
+     */
+    getCacheData: function (blobId) {
+        let cachedData = false;
+        if (cacheBlobStorage[blobId]) {
+            cachedData = cacheBlobStorage[blobId].blobData;
+        }
+        return cachedData;
+    },
+
+    /**
+     *
+     */
+    setCacheData: function (blobId, blobData, expires) {
+        cacheBlobStorage[blobId] = {
+            blobData: blobData,
+            expires: new Date().getTime() + (expires * 1000)
+        };
+    },
+
+    flushCacheData: function () {
+        let currentDateTime = new Date().getTime();
+        Object.keys(cacheBlobStorage).forEach(blobId => {
+            if (cacheBlobStorage[blobId].expires < currentDateTime) {
+                delete cacheBlobStorage[blobId];
+            }
+        });
+
+        setTimeout(function () {
+            Database.flushCacheData();
+        }, 5000);
     }
 
 };
 
+// Start data flush cycle
+Database.flushCacheData();
+
 var exports = module.exports = {
     query: Database.query,
-    insert: Database.insert
+    insert: Database.insert,
+    getCacheData: Database.getCacheData,
+    setCacheData: Database.setCacheData
 };

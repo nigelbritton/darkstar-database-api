@@ -10,7 +10,7 @@ let createError = require('http-errors'),
     path = require('path'),
     logger = require('morgan');
 
-// let apiRouter = require('./routes/api');
+let apiRouter = require('./routes/api');
 
 let app = express();
 
@@ -36,7 +36,11 @@ app.use(function (req, res, next) {
     next();
 });
 
-// app.use('/api', apiRouter);
+app.get('/', function(req, res) {
+    res.send({ version: applicationStatus.version });
+});
+
+app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -51,7 +55,7 @@ app.use(function (err, req, res, next) {
 
     // render the error page
     res.status(err.status || 500);
-    res.render('error');
+    res.send(res.locals.error);
 });
 
 app.listen(applicationStatus.serverPort, function () {
@@ -67,4 +71,16 @@ app.listen(applicationStatus.serverPort, function () {
     debug('');
     debug('Application ready and listening... ');
     debug('');
+    if (!process.env.DATABASE_HOST) {
+        debug('Warning missing environment value: DATABASE_HOST');
+    }
+    if (!process.env.DATABASE_USER) {
+        debug('Warning missing environment value: DATABASE_USER');
+    }
+    if (!process.env.DATABASE_PASSWORD) {
+        debug('Warning missing environment value: DATABASE_PASSWORD');
+    }
+    if (!process.env.DATABASE_NAME) {
+        debug('Warning missing environment value: DATABASE_NAME');
+    }
 });
